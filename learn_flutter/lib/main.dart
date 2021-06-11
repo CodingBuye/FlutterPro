@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('coder'),
         ),
-        body: MyCounterWidget(),
+        body: MyHomeBody(),
       ),
     );
   }
@@ -197,6 +197,45 @@ class HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     print('HomeBody build');
     return MyCounterWidget();
+  }
+}
+
+/// 文本Widget
+class MyHomeBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        FloatingActionButton(
+          child: Text("FloatingActionButton"),
+          onPressed: () {
+            print("FloatingActionButton Click");
+          },
+        ),
+        ElevatedButton(
+          child: Text("同意协议", style: TextStyle(color: Colors.white),),
+          style: ElevatedButton.styleFrom(
+              primary: Colors.orange,
+              onPrimary: Colors.orange[700],
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+          onPressed: () {
+            print("同意协议");
+          },
+        ),
+        TextButton(
+          child: Text("TextButton"),
+          onPressed: () {
+            print("TextButton Click");
+          },
+        ),
+        OutlinedButton(
+          child: Text("OutlinedButton"),
+          onPressed: () {
+            print("OutlinedButton Click");
+          },
+        )
+      ],
+    );
   }
 }
 

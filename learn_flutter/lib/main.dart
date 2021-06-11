@@ -11,11 +11,17 @@ void main() {
         ),
         // 页面的内容部分
         body: Center(
-          child: Text(
-            "hello world",
-            textDirection: TextDirection.ltr,
-            style: TextStyle(fontSize: 36),
-          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Checkbox(value: true, onChanged: (value) => print("Hello Flutter")),
+              Text(
+                "同意协议",
+                textDirection: TextDirection.ltr,
+                style: TextStyle(fontSize: 20),
+              )
+            ],
+          )
         ),
       ),
     )

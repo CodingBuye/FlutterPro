@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('coder'),
         ),
-        body: HomeContent(),
+        body: MyCounterWidget(),
       ),
     );
   }
@@ -82,5 +82,52 @@ class ProductItem extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+/// 计数器案例
+class MyCounterState extends State<MyCounterWidget> {
+  int counter = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                child: Text("+1", style: TextStyle(fontSize: 18, color: Colors.white),),
+                onPressed: () {
+                  setState(() {
+                    counter++;
+                  });
+                },
+                style: ElevatedButton.styleFrom(primary: Colors.redAccent),
+              ),
+              ElevatedButton(
+                child: Text("-1", style: TextStyle(fontSize: 18, color: Colors.white),),
+                onPressed: () {
+                  setState(() {
+                    counter--;
+                  });
+                },
+                style: ElevatedButton.styleFrom(primary: Colors.orangeAccent),
+              )
+            ],
+          ),
+          Text("当前计数：$counter", style: TextStyle(fontSize: 30),)
+        ],
+      )
+    );
+  }
+}
+
+class MyCounterWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return MyCounterState();
   }
 }

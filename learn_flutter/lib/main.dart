@@ -86,6 +86,28 @@ class ProductItem extends StatelessWidget {
 }
 
 /// 计数器案例
+/// 创建StatefulWidget时必须创建两个类：
+/// 1。一个类继承自StatefulWidget，作为Widget树的一部分；
+/// 2。一个类继承自State，用于记录StatefulWidget会变化的状态，并且根据状态的变化，构建出新的Widget；
+///
+/// 创建一个StatefulWidget，我们通常会按照如下格式来做：
+// class MyStatefulWidget extends StatefulWidget {
+//   @override
+//   State<StatefulWidget> createState() {
+//     // 将创建的State返回
+//     return MyState();
+//   }
+// }
+//
+// class MyState extends State<MyStatefulWidget> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return <构建自己的Widget>;
+//   }
+// }
+/// 当Flutter在构建Widget Tree时，会获取State的实例，
+/// 并且它调用build方法去获取StatefulWidget希望构建的Widget；
+/// 那么，我们就可以将需要保存的状态保存在MyState中，因为它是可变的；
 class MyCounterState extends State<MyCounterWidget> {
   int counter = 0;
 

@@ -111,8 +111,26 @@ class ProductItem extends StatelessWidget {
 class MyCounterState extends State<MyCounterWidget> {
   int counter = 0;
 
+  MyCounterState() {
+    print("3.执行MyCounterState的构造方法");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print("4.执行MyCounterState的init方法");
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    print("5.执行MyCounterState的didChangeDependencies方法");
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("6.执行执行MyCounterState的build方法");
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -142,14 +160,44 @@ class MyCounterState extends State<MyCounterWidget> {
           ),
           Text("当前计数：$counter", style: TextStyle(fontSize: 30),)
         ],
-      )
+      ),
     );
+  }
+
+  @override
+  void didUpdateWidget(MyCounterWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("执行MyCounterState的didUpdateWidget方法");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("执行MyCounterState的dispose方法");
   }
 }
 
 class MyCounterWidget extends StatefulWidget {
+
+  MyCounterWidget() {
+    print('1.执行了MyCounterWidget的构造方法');
+  }
+
   @override
   State<StatefulWidget> createState() {
+    print("2.执行了MyCounterWidget的createState方法");
+    // 将创建的State返回
     return MyCounterState();
   }
 }
+
+/// 生命周期
+class HomeBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    print('HomeBody build');
+    return MyCounterWidget();
+  }
+}
+
+

@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('coder'),
         ),
-        body: MyHomeBody(),
+        body: MyLocalImageBody(),
       ),
     );
   }
@@ -201,7 +201,7 @@ class HomeBody extends StatelessWidget {
 }
 
 /// 文本Widget
-class MyHomeBody extends StatelessWidget {
+class MyTextBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -235,6 +235,42 @@ class MyHomeBody extends StatelessWidget {
           },
         )
       ],
+    );
+  }
+}
+
+/// 网络图片Widget
+class MyNetImageBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: Image.network(
+          "http://img0.dili360.com/ga/M01/48/3C/wKgBy1kj49qAMVd7ADKmuZ9jug8377.tub.jpg",
+          alignment: Alignment.topCenter,
+          repeat: ImageRepeat.repeatY,
+          color: Colors.red,
+          colorBlendMode: BlendMode.colorDodge,
+        ),
+        width: 300,
+        height: 400,
+        color: Colors.yellow,
+      ),
+    );
+  }
+}
+
+/// 本地图片加载
+class MyLocalImageBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: Image.asset('images/1.jpeg'),
+        width: 300,
+        height: 400,
+        color: Colors.yellow,
+      ),
     );
   }
 }

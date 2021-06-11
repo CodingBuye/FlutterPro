@@ -351,9 +351,24 @@ class TextFieldDemo extends StatefulWidget {
 }
 
 class _TextFieldDemoState extends State<TextFieldDemo> {
+
+  final TextEditingController textEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // 设置默认值
+    textEditingController.text = 'hello world';
+    // 监听文本框
+    textEditingController.addListener(() {
+      print('textEditingController:${textEditingController.text}');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: textEditingController,
       decoration: InputDecoration(
         icon: Icon(Icons.people),
         labelText: 'username',

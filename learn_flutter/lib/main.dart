@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('coder'),
         ),
-        body: MyLocalImageBody(),
+        body: MyTextField(),
       ),
     );
   }
@@ -275,4 +275,99 @@ class MyLocalImageBody extends StatelessWidget {
   }
 }
 
+/// 圆角头像
+class MyCircleAvatar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircleAvatar(
+        radius: 100,
+        backgroundImage: NetworkImage("https://tva1.sinaimg.cn/large/006y8mN6gy1g7aa03bmfpj3069069mx8.jpg"),
+        child: Container(
+          alignment: Alignment(0, .5),
+          width: 200,
+          height: 200,
+          child: Text('冰场利威尔'),
+        ),
+      ),
+    );
+  }
+}
+/// ClipOval也可以实现圆角头像，而且通常是在只有头像时使用
+class MyClipOval extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ClipOval(
+        child: Image.network(
+          "https://tva1.sinaimg.cn/large/006y8mN6gy1g7aa03bmfpj3069069mx8.jpg",
+          width: 200,
+          height: 200,
+        ),
+      ),
+    );
+  }
+}
 
+
+/// 实现圆角图片
+class MyClipRRect extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.network(
+          "https://tva1.sinaimg.cn/large/006y8mN6gy1g7aa03bmfpj3069069mx8.jpg",
+          width: 200,
+          height: 200,
+        ),
+      ),
+    );
+  }
+}
+
+/// TextField的样式以及监听
+class MyTextField extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextFieldDemo()
+        ],
+      ),
+    );
+  }
+}
+
+class TextFieldDemo extends StatefulWidget {
+  @override
+  _TextFieldDemoState createState() {
+    return _TextFieldDemoState();
+  }
+}
+
+class _TextFieldDemoState extends State<TextFieldDemo> {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      decoration: InputDecoration(
+        icon: Icon(Icons.people),
+        labelText: 'username',
+        hintText: '请输入用户名',
+        border: InputBorder.none,
+        filled: true,
+        fillColor: Colors.lightGreen
+      ),
+      onChanged: (value) {
+        print('onchanged: $value');
+      },
+      onSubmitted: (value) {
+        print('onsubmitted:$value');
+      },
+    );
+  }
+}

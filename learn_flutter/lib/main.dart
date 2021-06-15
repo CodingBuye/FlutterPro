@@ -38,11 +38,34 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('coder'),
         ),
-        body: MyListViewBuildDynamic(),
+        body: MySeparatedDemo(),
       ),
     );
   }
 }
+
+/// ListView.separated
+class MySeparatedDemo extends StatelessWidget {
+  Divider blue = Divider(color: Colors.blue,);
+  Divider red = Divider(color: Colors.red,);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            leading: Icon(Icons.people),
+            title: Text('联系人${index+1}'),
+            subtitle: Text('联系人电话${index+1}'),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return index % 2 == 0 ? red : blue;
+        },
+        itemCount: 100);
+  }
+}
+
 
 class HomeContent extends StatelessWidget {
   @override

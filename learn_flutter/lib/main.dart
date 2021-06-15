@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:convert';
-import 'dart:async';
+import './anchor.dart';
 
 void main() {
   runApp(MyApp());
@@ -40,7 +38,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('coder'),
         ),
-        body: MyScrollDirection(),
+        body: MyListViewBuildDynamic(),
       ),
     );
   }
@@ -562,7 +560,7 @@ class MyListTitle extends StatelessWidget {
     );
   }
 }
-
+/// 垂直方向滚动
 class MyScrollDirection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -577,5 +575,67 @@ class MyScrollDirection extends StatelessWidget {
         Container(color: Colors.orange, width: 200,)
       ],
     );
+  }
+}
+
+/// ListView.build
+class MyListViewBuild extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: 100, // 列表项的数量，如果唯恐，表示ListView为无限列表
+        itemExtent: 80, //
+        // 列表创建的方法。当列表滚动到对应位置的时候，ListView会自动调用该方法来创建
+        // 对应的子Widget
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(title: Text("标题$index"), subtitle: Text("详情内容$index"));
+        });
+  }
+}
+
+/// ListView.build动态数据
+class MyListViewBuildDynamic extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return MyListViewBuildState();
+  }
+}
+
+class MyListViewBuildState extends State<MyListViewBuildDynamic> {
+  List<Anchor> anchors = <Anchor>[];
+
+  @override
+  void initState() {
+    getAnchors().then((anchors) {
+      setState(() {
+        this.anchors = anchors;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: anchors.length,
+        itemBuilder: (BuildContext context, int index) {
+      return Padding(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              anchors[index].imageUrl,
+              fit: BoxFit.fitWidth,
+              width: MediaQuery.of(context).size.width,
+            ),
+            SizedBox(height: 8,),
+            Text(anchors[index].nickname, style: TextStyle(fontSize: 20),),
+            SizedBox(height: 5,),
+            Text(anchors[index].roomName)
+          ],
+        ),
+      );
+    });
   }
 }

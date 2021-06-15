@@ -38,8 +38,229 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('coder'),
         ),
-        body: MySeparatedDemo(),
+        body: MyHomeNotificationDemo(),
       ),
+    );
+  }
+}
+
+class MyHomeNotificationDemo extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => MyHomeNotificationDemoState();
+}
+
+class MyHomeNotificationDemoState extends State<MyHomeNotificationDemo> {
+  int _progress = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return NotificationListener(
+      onNotification: (ScrollNotification notification) {
+        // 1.判断监听事件的类型
+        if (notification is ScrollStartNotification) {
+          print("开始滚动.....");
+        } else if (notification is ScrollUpdateNotification) {
+          // 当前滚动的位置和总长度
+          final currentPixel = notification.metrics.pixels;
+          final totalPixel = notification.metrics.maxScrollExtent;
+          double progress = currentPixel / totalPixel;
+          setState(() {
+            _progress = (progress * 100).toInt();
+          });
+          print("正在滚动：${notification.metrics.pixels} - ${notification.metrics.maxScrollExtent}");
+        } else if (notification is ScrollEndNotification) {
+          print("结束滚动....");
+        }
+        return false;
+      },
+      child: Stack(
+        alignment: Alignment(.9, .9),
+        children: <Widget>[
+          ListView.builder(
+              itemCount: 100,
+              itemExtent: 60,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(title: Text("item$index"));
+              }
+          ),
+          CircleAvatar(
+            radius: 30,
+            child: Text("$_progress%"),
+            backgroundColor: Colors.black54,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => MyHomePageState();
+}
+
+class MyHomePageState extends State<MyHomePage> {
+  late ScrollController _controller;
+  bool _isShowTop = false;
+
+  @override
+  void initState() {
+    // 初始化ScrollController
+    _controller = ScrollController();
+
+    // 监听滚动
+    _controller.addListener(() {
+      var tempSsShowTop = _controller.offset >= 1000;
+      if (tempSsShowTop != _isShowTop) {
+        setState(() {
+          _isShowTop = tempSsShowTop;
+        });
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("ListView展示"),
+      ),
+      body: ListView.builder(
+          itemCount: 100,
+          itemExtent: 60,
+          controller: _controller,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(title: Text("item$index"));
+          }
+      ),
+      floatingActionButton: !_isShowTop ? null : FloatingActionButton(
+        child: Icon(Icons.arrow_upward),
+        onPressed: () {
+          _controller.animateTo(0, duration: Duration(milliseconds: 1000), curve: Curves.ease);
+        },
+      ),
+    );
+  }
+}
+
+
+/// Slivers
+class MySlivers1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return showCustomScrollView();
+  }
+
+  Widget showCustomScrollView() {
+    return new CustomScrollView(
+      slivers: <Widget>[
+        const SliverAppBar(
+          expandedHeight: 250.0,
+          flexibleSpace: FlexibleSpaceBar(
+            title: Text('Coderwhy Demo'),
+            background: Image(
+              image: NetworkImage(
+                "https://tva1.sinaimg.cn/large/006y8mN6gy1g72j6nk1d4j30u00k0n0j.jpg",
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        new SliverGrid(
+          gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200.0,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
+            childAspectRatio: 4.0,
+          ),
+          delegate: new SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+              return new Container(
+                alignment: Alignment.center,
+                color: Colors.teal[100 * (index % 9)],
+                child: new Text('grid item $index'),
+              );
+            },
+            childCount: 10,
+          ),
+        ),
+        SliverFixedExtentList(
+          itemExtent: 50.0,
+          delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                return new Container(
+                  alignment: Alignment.center,
+                  color: Colors.lightBlue[100 * (index % 9)],
+                  child: new Text('list item $index'),
+                );
+              },
+              childCount: 20
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class MySlivers extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverSafeArea(
+          sliver: SliverPadding(
+            padding: EdgeInsets.all(8),
+            sliver: SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                    return Container(
+                      alignment: Alignment(0, 0),
+                      color: Colors.orange,
+                      child: Text("item$index"),
+                    );
+                  },
+                  childCount: 20
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+
+
+class MyGridCountDemo extends StatelessWidget {
+
+  List<Widget> getGridWidgets() {
+    return List.generate(100, (index) {
+      return Container(
+        color: Colors.purple,
+        alignment: Alignment(0, 0),
+        child: Text("item$index", style: TextStyle(fontSize: 20, color: Colors.white)),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          childAspectRatio: 1.0
+      ),
+      children: getGridWidgets(),
     );
   }
 }
@@ -65,7 +286,6 @@ class MySeparatedDemo extends StatelessWidget {
         itemCount: 100);
   }
 }
-
 
 class HomeContent extends StatelessWidget {
   @override

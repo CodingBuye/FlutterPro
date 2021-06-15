@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('coder'),
         ),
-        body: MyListTitle(),
+        body: MyScrollDirection(),
       ),
     );
   }
@@ -558,6 +558,23 @@ class MyListTitle extends StatelessWidget {
           subtitle: Text('地址详情'),
           trailing: Icon(Icons.arrow_forward_ios),
         )
+      ],
+    );
+  }
+}
+
+class MyScrollDirection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      itemExtent: 200,
+      children: [
+        Container(color: Colors.red, width: 200,),
+        Container(color: Colors.green, width: 200,),
+        Container(color: Colors.blue, width: 200,),
+        Container(color: Colors.purple, width: 200,),
+        Container(color: Colors.orange, width: 200,)
       ],
     );
   }
